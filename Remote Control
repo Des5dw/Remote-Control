@@ -1,0 +1,421 @@
+print("controls:")
+print("z - make it morning")
+print("x - make it night")
+print("c - clean workspace")
+print("v - heal the player your mouse is pointing at")
+print("f - make the player your mouse is pointing at fat")
+print("n - make everyone fat")
+print("e - annihilate the player your mouse is pointing at")
+print("p - suicide")
+print("k - kill other players")
+print("b - control the player your mouse it pointing at")
+print("r - tp evryone to you")
+print("t - send the player your mouse is pointing at to 'heaven'")
+print("q - spawn pet")
+print("g - spawn a blackhole")
+oil = game.Players.LocalPlayer
+sauce = oil.Character
+tor = sauce:FindFirstChild("Torso") or sauce:FindFirstChild("UpperTorso")
+head = sauce:FindFirstChild("Head")
+larm = sauce:FindFirstChild("Left Arm") or sauce:FindFirstChild("LeftUpperArm")
+rarm = sauce:FindFirstChild("Right Arm") or sauce:FindFirstChild("RightUpperArm")
+rleg = sauce:FindFirstChild("Right Leg") or sauce:FindFirstChild("RightUpperLeg")
+lleg = sauce:FindFirstChild("Left Leg") or sauce:FindFirstChild("LeftUpperLeg")
+hum = sauce:FindFirstChildOfClass("Humanoid")
+humroot = sauce:FindFirstChild("HumanoidRootPart")
+mou = oil:GetMouse()
+remoteequipped = true
+controlling = false
+light = game:GetService("Lighting")
+tool = Instance.new("Tool", oil.Backpack)
+tool.Name = "Remote"
+hand = Instance.new("Part", tool)
+hand.Name = "Handle"
+hand.Size = Vector3.new(1, 1, 1)
+hand.Transparency = 1
+p1 = Instance.new("Part", hand)
+p1.Size = Vector3.new(0.6, 0.1, 1.2)
+p1.Material = "Metal"
+p1.Name = "p1"
+p2 = Instance.new("Part", hand)
+p2.Size = Vector3.new(0.4, 0.1, 0.1)
+p2.Material = "Metal"
+p2.Name = "p2"
+p2.Shape = "Cylinder"
+p3 = Instance.new("Part", hand)
+p3.Shape = "Ball"
+p3.Material = "Neon"
+p3.Size = Vector3.new(0.15, 0.15, 0.15)
+p3.BrickColor = BrickColor.new("Crimson")
+p3.Name = "p3"
+p4 = Instance.new("Part", hand)
+p4.Size = Vector3.new(0.2, 0.4, 0.4)
+p4.Material = "Neon"
+p4.Name = "p4"
+p4.BrickColor = BrickColor.new("Maroon")
+p4.Shape = "Cylinder"
+w1 = Instance.new("Weld", p1)
+w1.Part0 = hand
+w1.Part1 = p1
+w1.C1 = CFrame.new(0, 0, 0.6)
+w1.Name = "w1"
+w2 = Instance.new("Weld", p2)
+w2.Part0 = hand
+w2.Part1 = p2
+w2.C1 = CFrame.new(1.3, 0, 0) * CFrame.Angles(math.rad(0), math.rad(90), math.rad(0))
+w3 = Instance.new("Weld", p3)
+w3.Part0 = hand
+w3.Part1 = p3
+w3.C1 = CFrame.new(0, 0, 1.5)
+w4 = Instance.new("Weld", p4)
+w4.Part0 = hand
+w4.Part1 = p4
+w4.C1 = CFrame.new(0.1, 0, 0.6) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(90))
+
+
+tool.Equipped:connect(function()
+remoteequipped = true
+function pressed(key)
+if remoteequipped == true then
+if key == "x" then
+light.TimeOfDay = 21
+elseif key == "z" then
+light.TimeOfDay = 7
+elseif key == "c" then
+for i,v in pairs(workspace:GetChildren()) do
+if v:IsA("Part") and v.Name ~= "Base" then
+v.Locked = false
+v:remove()
+end
+if v:IsA("Model") and not v:FindFirstChildOfClass("Humanoid") then
+v:remove()
+end
+end
+elseif key == "p" then
+hum.Health = 0
+elseif key == "k" then
+for i,v in pairs(workspace:GetChildren()) do
+if v:IsA("Model") and v:FindFirstChildOfClass("Humanoid") and v.Name ~= sauce.Name then
+khum = v:FindFirstChildOfClass("Humanoid")
+khum.Health = 0
+end
+end
+elseif key == "r" then
+for i,v in pairs(workspace:GetChildren()) do
+if v:IsA("Model") and v:FindFirstChildOfClass("Humanoid") and v.Name ~= sauce.Name then
+vtor = v:FindFirstChild("Torso" )or v:FindFirstChild("UpperTorso")
+vtor.CFrame = tor.CFrame * CFrame.new(0, 0, -5)
+end
+end
+elseif key == "v" then
+if mou.Target.Parent and mou.Target.Parent:FindFirstChildOfClass("Humanoid") then
+mouhum = mou.Target.Parent:FindFirstChildOfClass("Humanoid")
+mouhum.Health = mouhum.MaxHealth
+mouhead = mou.Target.Parent:FindFirstChild("Head")
+bill = Instance.new("BillboardGui", mouhead)
+bill.AlwaysOnTop = true
+bill.StudsOffset = Vector3.new(0, 2, 0)
+bill.Adornee = mouhead
+bill.Size = UDim2.new(5, 35, 5, 35)
+btext = Instance.new("TextLabel", bill)
+btext.Text = mou.Target.Parent.Name.." has been Healed!"
+btext.Font = "Bodoni"
+btext.TextSize = 30
+btext.TextScaled = true
+btext.BorderSizePixel = 0
+btext.BackgroundTransparency = 1
+btext.Size = UDim2.new(1.5, 0, 0.5, 0)
+btext.TextColor = BrickColor.new("Bright green")
+game:GetService("Debris"):AddItem(bill, 2)
+end
+elseif key == "e" then
+if mou.Target.Parent and mou.Target.Parent:FindFirstChildOfClass("Humanoid") then
+local nomoretor = mou.Target.Parent:FindFirstChild("Torso") or mou.Target.Parent:FindFirstChild("UpperTorso")
+local nomorehum = mou.Target.parent:FindFirstChildOfClass("Humanoid")
+local explo = Instance.new("Explosion", workspace)
+explo.Position = nomoretor.Position
+nomorehum.Health = 0
+end
+elseif key == "f" then
+if mou.Target.Parent and mou.Target.Parent:FindFirstChildOfClass("Humanoid") then
+local fatman = mou.Target.Parent
+local fatmanhum = fatman:FindFirstChildOfClass("Humanoid")
+fatmanhum.WalkSpeed = 8
+local fattor = mou.Target.Parent:FindFirstChild("Torso") or mou.Target.Parent:FindFirstChild("UpperTorso")
+local hinum = Instance.new("Sound", fattor)
+hinum.SoundId = "rbxassetid://1278031541"
+hinum.Volume = 10
+local realfat = Instance.new("Part", fattor)
+realfat.BrickColor = fattor.BrickColor
+realfat.Material = "SmoothPlastic"
+local supaweld = Instance.new("Weld", realfat)
+supaweld.Part0 = fattor
+supaweld.Part1 = realfat
+local fat = Instance.new("SpecialMesh", realfat)
+fat.MeshType = "Sphere"
+fat.Scale = Vector3.new(0.6, 1.6, 0.9)
+fat.Offset = Vector3.new(0, -0.4, -0.7)
+hinum:Play()
+if fatman:FindFirstChildOfClass("Shirt") then
+fatman:FindFirstChildOfClass("Shirt"):remove()
+end
+end
+elseif key == "b" then
+if mou.Target.Parent and mou.Target.Parent:FindFirstChildOfClass("Humanoid") and controlling == false then
+controlling = true
+cman = mou.Target.Parent
+mtor = cman:FindFirstChild("Torso") or cman:FindFirstChild("UpperTorso")
+mlarm = cman:FindFirstChild("Left Arm") or cman:FindFirstChild("LeftUpperArm")
+mrarm = cman:FindFirstChild("Right Arm") or cman:FindFirstChild("RightUpperArm")
+mlleg = cman:FindFirstChild("Left Leg") or cman:FindFirstChild("LeftUpperLeg")
+mrleg = cman:FindFirstChild("Right Leg") or cman:FindFirstChild("RightUpperLeg")
+mhead = cman:FindFirstChild("Head")
+mhum = cman:FindFirstChildOfClass("Humanoid")
+mhum.PlatformStand = true
+hum.NameOcclusion = "NoOcclusion"
+mface = head:FindFirstChild("face")
+mface.Transparency = 1
+humroot.Transparency = 1
+for i,v in pairs(sauce:GetChildren()) do
+if v:IsA("Part") then
+v.Transparency = 1
+end
+if v:IsA("Accessory") then
+v.Handle.Transparency = 1
+end
+end
+ow1 = Instance.new("Weld", tor)
+ow1.Part0 = tor
+ow1.Part1 = mtor
+ow2 = Instance.new("Weld", larm)
+ow2.Part0 = larm
+ow2.Part1 = mlarm
+ow3 = Instance.new("Weld", rarm)
+ow3.Part0 = rarm
+ow3.Part1 = mrarm
+ow4 = Instance.new("Weld", lleg)
+ow4.Part0 = lleg
+ow4.Part1 = mlleg
+ow5 = Instance.new("Weld", rleg)
+ow5.Part0 = rleg
+ow5.Part1 = mrleg
+ow6 = Instance.new("Weld", head)
+ow6.Part0 = head
+ow6.Part1 = mhead
+elseif controlling == true then
+controlling = false
+ow1:Destroy()
+ow2:Destroy()
+ow3:Destroy()
+ow4:Destroy()
+ow5:Destroy()
+ow6:Destroy()
+mhum.PlatformStand = false
+hum.NameOcclusion = "OccludeAll"
+humrootTransparency = 1
+mface.Transparency = 0
+for i,v in pairs(sauce:GetChildren()) do
+if v:IsA("Part") and v ~= humroot then
+v.Transparency = 0
+end
+if v:IsA("Accessory") then
+v.Handle.Transparency = 0
+end
+end
+end
+elseif key == "n" then
+for i,v in pairs(workspace:GetChildren()) do
+if v:IsA("Model") and v:FindFirstChildOfClass("Humanoid") and v.Name ~= sauce.Name then
+local fatman = v
+local fatmanhum = fatman:FindFirstChildOfClass("Humanoid")
+fatmanhum.WalkSpeed = 8
+local fattor = fatman:FindFirstChild("Torso") or fatman:FindFirstChild("UpperTorso")
+local hinum2 = Instance.new("Sound", fattor)
+hinum2.SoundId = "rbxassetid://1278031541"
+hinum2.Volume = 10
+local realfat = Instance.new("Part", fattor)
+realfat.BrickColor = fattor.BrickColor
+realfat.Material = "SmoothPlastic"
+local supaweld = Instance.new("Weld", realfat)
+supaweld.Part0 = fattor
+supaweld.Part1 = realfat
+local fat = Instance.new("SpecialMesh", realfat)
+fat.MeshType = "Sphere"
+fat.Scale = Vector3.new(0.6, 1.6, 0.9)
+fat.Offset = Vector3.new(0, -0.4, -0.7)
+hinum2:Play()
+if fatman:FindFirstChildOfClass("Shirt") then
+fatman:FindFirstChildOfClass("Shirt"):remove()
+end
+end
+end
+elseif key == "t" then
+if mou.Target.Parent and mou.Target.Parent:FindFirstChildOfClass("Humanoid") then
+local goneman = mou.Target.Parent
+local gonehead = goneman:FindFirstChild("Head")
+local gonetor = goneman:FindFirstChild("Torso") or goneman:FindFirstChild("UpperTorso")
+local lightb = Instance.new("Part", goneman)
+lightb.Shape = "Cylinder"
+lightb.CanCollide = false
+lightb.Anchored = true
+lightb.Size = Vector3.new(300, 10, 10)
+lightb.Material = "Neon"
+lightb.Transparency = 0.5
+lightb.BrickColor = BrickColor.new("New Yeller")
+lightb.CFrame = gonetor.CFrame * CFrame.new(0, 140, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(90))
+local start = gonetor.CFrame
+local finish = lightb.CFrame * CFrame.new(140, 0, 0)
+for i = 0,1,.01 do
+gonetor.CFrame = start:lerp(finish, i)
+wait()
+end
+gonehead.Size = Vector3.new(50, 50, 50)
+lightb:Destroy()
+end
+elseif key == "q" then
+if mou.Target ~= nil then
+local dont = Instance.new("Part", sauce)
+dont.CFrame = mou.Hit
+dont.Material = "Sand"
+dont.BrickColor = BrickColor.new("Pastel yellow")
+dont.Size = Vector3.new(3, 3, 3)
+dont.Shape = "Ball"
+dont.Anchored = true
+local obj = Instance.new("Sound", dont)
+local feats = {463838589, 691897627, 179270320, 425407550, 1074595721, 1065045593, 142688397, 1308566029, 1402510823}
+obj.SoundId = "rbxassetid://"..feats[math.random(1,#feats)]
+obj.Volume = 10
+obj.Looped = true
+obj:Play()
+oil.Chatted:connect(function(msg)
+if msg:lower():sub(1, 7) == "plastic" then
+dont.Material = "Plastic"
+elseif msg:lower():sub(1, 5) == "slate" then
+dont.Material = "Slate"
+elseif msg:lower():sub(1, 3) == "ice" then
+dont.Material = "Ice"
+elseif msg:lower():sub(1, 5) == "metal" then
+dont.Material = "Metal"
+elseif msg:lower():sub(1, 4) == "neon" then
+dont.Material = "Neon"
+elseif msg:lower():sub(1, 5) == "grass" then
+dont.Material = "Grass"
+elseif msg:lower():sub(1, 4) == "sand" then
+dont.Material = "Sand"
+elseif msg:lower():sub(1, 9) == "woodplank" then
+dont.Material = "WoodPlanks"
+elseif msg:lower():sub(1, 4) == "wood" then
+dont.Material = "Wood"
+elseif msg:lower():sub(1, 6) == "marble" then
+dont.Material = "Marble"
+elseif msg:lower():sub(1, 8) == "concrete" then
+dont.Material = "Concrete"
+elseif msg:lower():sub(1, 5) == "brick" then
+dont.Material = "Brick"
+elseif msg:lower():sub(1, 7) == "granite" then
+dont.Material = "Granite"
+elseif msg:lower():sub(1, 6) == "pebble" then
+dont.Material = "Pebble"
+elseif msg:lower():sub(1, 11) == "cobblestone" then
+dont.Material = "Cobblestone"
+elseif msg:lower():sub(1, 13) == "corrodedmetal" then
+dont.Material = "CorrodedMetal"
+elseif msg:lower():sub(1, 12) == "diamondplate" then
+dont.Material = "DiamondPlate"
+elseif msg:lower():sub(1, 4) == "foil" then
+dont.Material = "Foil"
+elseif msg:lower():sub(1, 6) == "fabric" then
+dont.Material = "Fabric"
+elseif msg:lower():sub(1, 6) == "yellow" then
+dont.BrickColor = BrickColor.new("New Yeller")
+elseif msg:lower():sub(1, 6) == "purple" then
+dont.BrickColor = BrickColor.new("Bright violet")
+elseif msg:lower():sub(1, 3) == "red" then
+dont.BrickColor = BrickColor.new("Crimson")
+elseif msg:lower():sub(1, 5) == "black" then
+dont.BrickColor = BrickColor.new("Really black")
+elseif msg:lower():sub(1, 5) == "white" then
+dont.BrickColor = BrickColor.new("Institutional white")
+elseif msg:lower():sub(1, 4) == "pink" then
+dont.BrickColor = BrickColor.new("Hot pink")
+elseif msg:lower():sub(1, 5) == "green" then
+dont.BrickColor = BrickColor.new("Bright green")
+elseif msg:lower():sub(1, 4) == "grey" then
+dont.BrickColor = BrickColor.new("Medium stone grey")
+elseif msg:lower():sub(1, 5) == "brown" then
+dont.BrickColor = BrickColor.new("Burnt Sienna")
+elseif msg:lower():sub(1, 6) == "orange" then
+dont.BrickColor = BrickColor.new("Deep orange")
+elseif msg:lower():sub(1, 4) == "blue" then
+dont.BrickColor = BrickColor.new("Really blue")
+elseif msg:lower():sub(1, 4) == "cyan" then
+dont.BrickColor = BrickColor.new("Cyan")
+elseif msg:lower():sub(1, 6) == "pastel" then
+dont.BrickColor = BrickColor.new("Pastel yellow")
+elseif msg:lower():sub(1, 5) == "ghost" then
+dont.Transparency = 0.7
+elseif msg:lower():sub(1, 5) == "alive" then
+dont.Transparency = 0
+elseif msg:lower():sub(1, 5) == "block" then
+dont.Shape = "Block"
+elseif msg:lower():sub(1, 4) == "ball" then
+dont.Shape = "Ball"
+elseif msg:lower():sub(1, 3) == "bye" then
+dont:Destroy()
+elseif msg:lower():sub(1, 17) == "pick another song" then
+obj:Stop()
+obj.SoundId = "rbxassetid://"..feats[math.random(1,#feats)]
+obj.Volume = 10
+obj.Looped = true
+obj:Play()
+elseif msg:lower():sub(1, 4) == "play" then
+obj:Play()
+elseif msg:lower():sub(1, 4) == "stop" then
+obj:Stop()
+elseif msg:lower():sub(1, 3) == "add" then
+obj:Stop()
+local arg = msg:sub(5, 999)
+obj.SoundId = "rbxassetid://"..arg
+obj:Play()
+end
+end)
+while true do
+for i = 0,1,.001 do
+dont.CFrame = dont.CFrame:lerp(tor.CFrame * CFrame.new(0, 5, 3), i)
+dont.Size = Vector3.new(obj.PlaybackLoudness/80, obj.PlaybackLoudness/80, obj.PlaybackLoudness/80)
+wait()
+end
+wait()
+end
+end
+elseif key == "g" then
+if mou.Target ~= nil then
+local MAN = mou.Target.Parent
+local MANT = MAN:FindFirstChild("Torso") or MAN:FindFirstChild("UpperTorso")
+local hole = Instance.new("Part", workspace)
+hole.Shape = "Ball"
+hole.Size = Vector3.new(0.7, 0.7, 0.7)
+hole.BrickColor = BrickColor.new("Eggplant")
+hole.Anchored = true
+hole.Material = "Neon"
+hole.CFrame = mou.Hit
+for i,v in pairs(workspace:GetChildren()) do
+if v:IsA("Model") and v:FindFirstChildOfClass("Humanoid") and v.Name ~= sauce.Name then
+local owtor = v
+blacktor = owtor:FindFirstChild("Torso") or owtor:FindFirstChild("UpperTorso")
+bodpos = Instance.new("BodyPosition", blacktor)
+bodpos.Position = hole.Position
+bodpos.P = 5000000000
+bodpos.MaxForce = Vector3.new(500000000, 500000000, 500000000)
+end
+end
+end
+
+end
+end
+end
+mou.KeyDown:connect(pressed)
+end)
+tool.Unequipped:connect(function()
+remoteequipped = false
+end)
